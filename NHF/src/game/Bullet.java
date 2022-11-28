@@ -17,7 +17,7 @@ public class Bullet extends Thing {
      */
     public Bullet(Thing owner, double angle) {
         // creates a bullet from the spaceship's position, with the exiting angle, and the speed of the bullet
-        // for the collison of the bullet you can gain 0 points
+        // for the collision of the bullet you can gain 0 points
         super(new DescartesVector(owner.position), new DescartesVector(angle).multiply_by_scalar(bulletSpeed), 2.0, 0);
         // sets the bullets "lifespan"
         life = 60;

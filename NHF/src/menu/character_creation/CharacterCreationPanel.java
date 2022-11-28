@@ -39,11 +39,11 @@ import javax.swing.*;
 
 /**
  * The class was implemented from:
- * https://docs.oracle.com/javase/tutorial/uiswing/components/colorchooser.html
+ * <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/colorchooser.html">Java Color Picker</a>
  */
 public class CharacterCreationPanel extends JPanel {
     private final JColorChooser tcc;
-    JTextField userName;
+    private final JTextField userName;
 
     /**
      * constructor - creates a text field for the username, a color picker area
@@ -51,21 +51,26 @@ public class CharacterCreationPanel extends JPanel {
     public CharacterCreationPanel() {
         super(new BorderLayout());
 
-        userName = new JTextField();
+        // creating a text field for the player's name
+        userName = new JTextField("User");
         userName.setBounds(new Rectangle(300, 100));
         JPanel userNamePanel = new JPanel(new BorderLayout());
         userNamePanel.setBorder(BorderFactory.createTitledBorder("Username:"));
         userNamePanel.add(userName, BorderLayout.CENTER);
 
+        // creating a panel for choosing color
         tcc = new JColorChooser();
         tcc.setBorder(BorderFactory.createTitledBorder("Choose Ship Color"));
 
+        // embedding the elements
         add(userNamePanel, BorderLayout.NORTH);
         add(tcc, BorderLayout.CENTER);
 
     }
 
     /**
+     * getUserName - for saving the name of the player
+     *
      * @return username of the player from the text field
      */
     public String getUserName() {
@@ -73,6 +78,8 @@ public class CharacterCreationPanel extends JPanel {
     }
 
     /**
+     * getUserColor - for saving the color of the ship
+     *
      * @return the color of the ship
      */
     public Color getUserColor() {

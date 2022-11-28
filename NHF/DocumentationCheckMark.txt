@@ -2,18 +2,18 @@ data_management:
     FileManagement                  ✓
 
 game:
-    Asteroid                        
-    AsteroidSize                    
-    Bullet                          
-    DescartesVector                 
-    GameFrame                       
-    PlayPanel                       
-    SpaceShip                       
-    Thing                           
+    Asteroid                        ✓
+    AsteroidSize                    ✓
+    Bullet                          ✓
+    DescartesVector                 ✓
+    GameFrame                       ✓
+    PlayPanel                       ✓
+    SpaceShip                       ✓
+    Thing                           ✓
 
 menu:
     character_creation:
         CharacterCreationMenu       ✓
         CharacterCreationPanel      ✓
-    GameMenu                        
-    ScoreBoard                      
+    GameMenu                        ✓
+    ScoreBoard                      ✓

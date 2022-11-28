@@ -13,33 +13,44 @@ import java.io.IOException;
  * CharacterCreationMenu - creates a frame which includes a color picker panel
  */
 public class CharacterCreationMenu {
-    JFrame f;
+    JFrame frame;
+
     JPanel mainPanel;
-    CharacterCreationPanel create;
+
+    CharacterCreationPanel characterCreationPanel;
 
     /**
      * constructor - creates the frame and sets up the layout (a color picker, a text field for the player's name, and a button for saving the data and return to the main menu)
      */
     public CharacterCreationMenu() {
-        f = new JFrame("Character Creation");
+        // create a frame
+        frame = new JFrame("Character Creation");
+
+        // create a panel
         mainPanel = new JPanel(new BorderLayout());
 
-        create = new CharacterCreationPanel();
+        // create a character creation panel
+        characterCreationPanel = new CharacterCreationPanel();
 
+        // create a panel which contains a button
         JPanel buttonPanel = new JPanel(new BorderLayout());
         JPanel innerPanel = new JPanel();
+        // setting the inner panel's size
         innerPanel.setBounds(new Rectangle(300, 150));
+        //button for saving within the panel
         JButton startGame = new JButton("Save Character");
+        // adding an on click action for the button
         startGame.addActionListener(new StartGameButtonAction());
+
+        // embedding the elements
         innerPanel.add(startGame);
         buttonPanel.add(innerPanel, BorderLayout.CENTER);
-
-        mainPanel.add(create, BorderLayout.NORTH);
+        mainPanel.add(characterCreationPanel, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        f.add(mainPanel);
-        f.setVisible(true);
-        f.pack();
+        frame.add(mainPanel);
+        frame.setVisible(true);
+        frame.pack();
     }
 
     /**
@@ -49,9 +60,9 @@ public class CharacterCreationMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new FileManagement().saveLatestPlayer(create.getUserName(), create.getUserColor());
-                f.dispose();
-                new GameMenu().menu_init();
+                new FileManagement().saveLatestPlayer(characterCreationPanel.getUserName(), characterCreationPanel.getUserColor());
+                frame.dispose();
+                new GameMenu().menuInit();
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

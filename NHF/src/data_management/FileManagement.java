@@ -1,29 +1,32 @@
 package data_management;
 
+import game.Thing;
+
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * FileManagement responsible for the database management of the game like saving the player's name and the chosen color
+ * FileManagement - responsible for the database management of the game like saving the player's name and the chosen color
  */
 public class FileManagement {
-
-
-    /**
-     * player - name of the player
-     * color - color of the spaceship
-     * scoreboard - file where the scored points and the player's name is saved
-     * lastPlayer - file where the latest modification of character creation is saved
-     * rgb - the red green & blue (int) values of the spaceship color
-     * scores - the data of the scoreboard
-     */
+    // name of the player
     private String player;
+
+    // color of the spaceship
     private String color;
+
+    // file where the scored points and the player's name is saved
     private final File scoreboard = new File("scoreboard.txt");
+
+    // file where the latest modification of character creation is saved
     private final File lastPlayer = new File("lastplayer.txt");
+
+    // the red green & blue (int) values of the spaceship color
     private final ArrayList<Integer> rgb = new ArrayList<>();
+
+    // the data of the scoreboard
     private final ArrayList<String> scores = new ArrayList<>();
 
     /**
@@ -53,7 +56,7 @@ public class FileManagement {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("Cannot Open 'scoreboard.txt'");
             e.printStackTrace();
         }
     }
@@ -150,7 +153,7 @@ public class FileManagement {
             String[] fragment = score.split(" ");
             int handleValue = Integer.parseInt(fragment[0]);
             scoreValue.add(handleValue);
-            nameValue.add(fragment[1]);
+            nameValue.add(score);
         }
 
 
@@ -176,9 +179,33 @@ public class FileManagement {
         scores.clear();
 
         for (int i = 0; i < scoreValue.size(); i++) {
-            scores.add(scoreValue.get(i) + " " + nameValue.get(i));
+            scores.add(nameValue.get(i));
         }
 
         return scores;
+    }
+
+    /**
+     * @return an ArrayList container, which contains all members of the game e.g. spaceship, asteroids
+     * @throws IOException            - unable to open "saved_game.txt"
+     * @throws ClassNotFoundException -
+     */
+    public ArrayList<Thing> loadGame() throws IOException, ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream("saved_game.txt"));
+
+        ArrayList<Thing> container = (ArrayList<Thing>) in.readObject();
+        in.close();
+        return container;
+    }
+
+    /**
+     * @param thingArrayList - a list which contains every element from the game e.g. spaceship, asteroids
+     * @throws IOException - unable to open "saved_game.txt"
+     */
+    public void saveGame(ArrayList<Thing> thingArrayList) throws IOException {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("saved_game.txt"));
+
+        out.writeObject(thingArrayList);
+        out.close();
     }
 }

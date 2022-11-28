@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Asteroid - child class of Thing, responsible for the movement, collision and drawing of them
+ * Asteroid - child class of Thing, responsible for the movement, collision and drawing of asteroids
  */
 public class Asteroid extends Thing {
     private final AsteroidSize asteroidSize;
@@ -44,7 +44,7 @@ public class Asteroid extends Thing {
         double minDistance = 300.0;
 
         // maximal distance from the middle of the panel
-        double maxDistance = PlayPanel.worldSize / 2.0;
+        double maxDistance = GamePanel.worldSize / 2.0;
 
         double deltaDistance = maxDistance - minDistance;
 

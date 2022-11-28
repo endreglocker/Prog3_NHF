@@ -3,30 +3,36 @@ package game;
 import java.awt.*;
 import java.util.ArrayList;
 
-
+/**
+ * SpaceShip - child class of Thing, draws the spaceships, and implements its movement and firing capabilities
+ */
 public class SpaceShip extends Thing {
+    // a default value for rotating the ship
     private static final double rotationSpeed = 0.05;
 
+    // a cool-down parameter for firing (trying to avoid machine-gun-like user experience)
     private int fireCD;
 
+    // determine whether "w" was pressed or not
     private boolean canMoveForward;
 
+    // determine whether "a" was pressed or not
     private boolean rotateLeftPressed;
 
+    //determine whether "d" was pressed or not
     private boolean rotateRightPressed;
 
+    //determine whether space bar was pressed or not
     private boolean firePressed;
 
-    //private int consecutiveShots;
-
-
+    // list for controlling the maximum number of bullets / shot
     private final ArrayList<Bullet> bullets;
 
     /**
      * SpaceShip - initialize a spaceship (creates spaceship, maximise the number of bullet, sets default rotation, disable firing etc.)
      */
     public SpaceShip() {
-        super(new DescartesVector(PlayPanel.worldSize / 2.0, PlayPanel.worldSize / 2.0), new DescartesVector(0.0, 0.0), 10.0, 0);
+        super(new DescartesVector(GamePanel.worldSize / 2.0, GamePanel.worldSize / 2.0), new DescartesVector(0.0, 0.0), 10.0, 0);
         bullets = new ArrayList<>();
         // from thing!
         rotation = -Math.PI / 2.0;
@@ -67,6 +73,7 @@ public class SpaceShip extends Thing {
     }
 
     /**
+     * update - controlling the movement of the ship by the given input, slowing it down, firing bullets
      * @param game - game frame
      */
     @Override
@@ -88,26 +95,18 @@ public class SpaceShip extends Thing {
         if (canMoveForward) {
             // acceleration:
             velocity.addVectorToVector(new DescartesVector(rotation).multiply_by_scalar(0.05));
-
-
-            // Limiting infinite speed
-            /*
-            double maxSpeed = 4;
-            if (velocity.vectorSizeSquared() >= maxSpeed * maxSpeed) {
-                velocity.unitVector().multiply_by_scalar(maxSpeed);
-            }
-            */
         }
 
         // if the spaceship has velocity apply a slowing force
         // smaller number means slower acceleration
+        // avoiding "floating" effect e.g. moving with a certain speed during the entire game without pressing any key
         if (velocity.vectorSizeSquared() != 0.0) {
             double slowingForce = 0.999;
             velocity.multiply_by_scalar(slowingForce);
         }
 
         // remove bullets if it is out of their range
-        bullets.removeIf(Thing::needsRemoval);
+        bullets.removeIf(Thing::getNeedsRemoval);
 
         // fire cool-down is for preventing machine-gun-effect
         fireCD--;
@@ -127,17 +126,6 @@ public class SpaceShip extends Thing {
                 // adding bullet to the game
                 game.registerThing(bullet);
             }
-        /*
-            //consecutiveShots++;
-
-            int maxShots = 8;
-            //if (consecutiveShots == maxShots) {
-            //  consecutiveShots = 0;
-            //}
-        } //else if (consecutiveShots > 0) {
-        //consecutiveShots--;
-        //}
-        */
         }
     }
 

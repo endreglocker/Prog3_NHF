@@ -6,6 +6,8 @@ import java.awt.*;
  * AsteroidSize - stores the base type of asteroids
  */
 public enum AsteroidSize {
+
+    // asteroid types
     Small(15.0, 100),
 
     Medium(25.0, 50),

@@ -17,7 +17,7 @@ public class GameMenu {
     /**
      * sets the frame visible, changes the background color, and the size of the frame
      */
-    public void menu_init() {
+    public void menuInit() {
         f.setVisible(true);
         f.setLayout(null);
         f.setResizable(false);
@@ -25,15 +25,14 @@ public class GameMenu {
         //f.setSize(WINDOW_WIDTH, WINDOW_HEIGHT); // either this, or setPreferredSize() with pack()
         f.setPreferredSize(new Dimension(windowWidth, windowHeight));
         f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
-        f.add(menu_panel());
+        f.add(menuPanel());
         f.pack();
     }
 
     /**
-     *
-     * @return a more or less centered panel where the menu buttons are laying
+     * @return a more or less centered JPanel where the menu buttons are laying
      */
-    JPanel menu_panel() {
+    public JPanel menuPanel() {
         JPanel panel = new JPanel();
         final int PANEL_WIDTH = 150;
         final int PANEL_HEIGHT = 300;
@@ -54,7 +53,7 @@ public class GameMenu {
      *
      * @param panel - JPanel which contains the buttons
      */
-    void setButtons(JPanel panel) {
+    public void setButtons(JPanel panel) {
         JButton exit = new JButton("Exit");
         JButton scoreBoard = new JButton("ScoreBoard");
         JButton createPlayer = new JButton("Create Player");
@@ -68,6 +67,8 @@ public class GameMenu {
         createPlayer.addActionListener(new CreatePlayerAction());
 
         play.addActionListener(new StartGameAction());
+
+        continueGame.addActionListener(new ContinueGameAction());
 
         panel.add(continueGame);
         panel.add(play);
@@ -111,11 +112,19 @@ public class GameMenu {
         }
     }
 
+    /**
+     * on click shows the character creation panel, disposes the current one
+     */
+    public class ContinueGameAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            f.dispose();
+            new GameFrame().loadGame();
+        }
+    }
+
     public static void main(String[] args) {
         // Create the main menu:
-        new GameMenu().menu_init();
-
-        // Create the playable game:
-        //new GameFrame().startGame();
+        new GameMenu().menuInit();
     }
 }

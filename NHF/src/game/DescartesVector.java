@@ -1,6 +1,11 @@
 package game;
 
-public class DescartesVector {
+import java.io.Serializable;
+
+/**
+ * DescartesVector - implements 2 dimensional vectors for implementing movement, directions etc.
+ */
+public class DescartesVector implements Serializable {
 
     // x coordinate
     private double x;
@@ -94,6 +99,10 @@ public class DescartesVector {
         x = vx;
         y = vy;
     }
+
+    /**
+     * getters - getX(); getY()
+     */
 
     public double getX() {
         return x;

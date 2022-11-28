@@ -1,19 +1,26 @@
 package game;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Thing {
+public abstract class Thing implements Serializable {
+    // position of a thing (X,Y) coordinates
     protected DescartesVector position;
 
+    // vector for measuring the speed of a thing
     protected DescartesVector velocity;
 
+    // turning / orienting a thing
     protected double rotation;
 
+    // approaching / estimate the size of a thing by a circle
     protected double radius;
 
+    // flag for removing a "thing"
     private boolean needsRemoval;
 
+    // points for destroying an asteroid
     private final int scoredPoints;
 
     /**
@@ -39,28 +46,11 @@ public abstract class Thing {
         rotation %= Math.PI * 2;
     }
 
-    public int getScoredPoints() {
-        return scoredPoints;
-    }
-
+    /**
+     * mustRemove - sets the removal flag True
+     */
     public void mustRemove() {
         needsRemoval = true;
-    }
-
-    public DescartesVector getPosition() {
-        return position;
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
-    public double getCollisionRadius() {
-        return radius;
-    }
-
-    public boolean needsRemoval() {
-        return needsRemoval;
     }
 
     /**
@@ -72,12 +62,12 @@ public abstract class Thing {
         position.addVectorToVector(velocity);
 
         if (position.getX() < 0.0) {
-            position.setXY(position.getX() + PlayPanel.worldSize, position.getY());
+            position.setXY(position.getX() + GamePanel.worldSize, position.getY());
         }
         if (position.getY() < 0.0) {
-            position.setXY(position.getX(), position.getY() + PlayPanel.worldSize);
+            position.setXY(position.getX(), position.getY() + GamePanel.worldSize);
         }
-        position.setXY(position.getX() % PlayPanel.worldSize, position.getY() % PlayPanel.worldSize);
+        position.setXY(position.getX() % GamePanel.worldSize, position.getY() % GamePanel.worldSize);
     }
 
     /**
@@ -94,17 +84,39 @@ public abstract class Thing {
     }
 
     /**
-     *
-     * @param game - game frame
+     * @param game  - game frame
      * @param other - a "thing"
      */
     public abstract void handleCollision(GameFrame game, Thing other);
 
     /**
-     *
-     * @param g2d - 2D Graphics object for drawing
+     * @param g2d  - 2D Graphics object for drawing
      * @param game - game frame
-     * @param rgb - color from saved data
+     * @param rgb  - color from saved data
      */
     public abstract void draw(Graphics2D g2d, GameFrame game, ArrayList<Integer> rgb);
+
+
+    /**
+     * getters - getScoredPoints(); getPosition(); getRotation(); getCollisionRadius(); getNeedsRemoval();
+     */
+    public int getScoredPoints() {
+        return scoredPoints;
+    }
+
+    public DescartesVector getPosition() {
+        return position;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public double getCollisionRadius() {
+        return radius;
+    }
+
+    public boolean getNeedsRemoval() {
+        return needsRemoval;
+    }
 }
